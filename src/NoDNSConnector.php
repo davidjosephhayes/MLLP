@@ -26,7 +26,7 @@ class NoDNSConnector implements ConnectorInterface
     public function createSocketForAddress($address, $port, $hostName = null)
     {
         $url = $this->getSocketUrl($address, $port);
-        $contextOpts = array();
+        $contextOpts = [];
         if ($hostName !== null) {
             $contextOpts['ssl']['SNI_enabled'] = true;
             $contextOpts['ssl']['SNI_server_name'] = $hostName;
@@ -44,8 +44,8 @@ class NoDNSConnector implements ConnectorInterface
         // wait for connection
         return $this
             ->waitForStreamOnce($socket)
-            ->then(array($this, 'checkConnectedSocket'))
-            ->then(array($this, 'handleConnectedSocket'));
+            ->then([$this, 'checkConnectedSocket'])
+            ->then([$this, 'handleConnectedSocket']);
     }
     protected function waitForStreamOnce($stream)
     {

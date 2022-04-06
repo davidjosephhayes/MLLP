@@ -18,23 +18,23 @@ abstract class Server extends EventEmitter implements EventEmitterInterface
     }
     
     public function handleRequest(ConnectionInterface $connection) {
-        $this->emit('connection', array($connection));
+        $this->emit('connection', [$connection]);
         $connection->on('data', function($data) use ($connection) {
             try {
                 $data = MLLPParser::unwrap($data);
-                $this->emit('data', array($data, $connection));
+                $this->emit('data', [$data, $connection]);
             } catch(\InvalidArgumentException $e) {
                 $this->handleInvalidMLLPEnvelope($data, $connection);
-                $this->emit('error', array('Invalid MLLP envelope. Received: "'.$data.'"'));
+                $this->emit('error', ['Invalid MLLP envelope. Received: "'.$data.'"']);
             }
         });
     }
     
     public function send($data, ConnectionInterface $connection) {
-        $this->emit('send', array($data));
+        $this->emit('send', [$data]);
         
         $connection->on('error', function(ConnectionInterface $connection, $error) {
-           $this->emit('error', array('Error sending data: '.$error));
+           $this->emit('error', ['Error sending data: '.$error]);
         });
         
         $data = MLLPParser::enclose($data);

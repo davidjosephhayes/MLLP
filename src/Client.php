@@ -27,14 +27,14 @@ class Client extends EventEmitter implements EventEmitterInterface
     }
     
     public function send($data) {
-        $this->emit('send', array($data));
+        $this->emit('send', [$data]);
         $wrappedData = MLLPParser::enclose($data);
         
         $this->connector->create($this->host, $this->port)->then(function (Stream $stream) use ($wrappedData) {
             $stream->write($wrappedData);
             $stream->on('data', function($data) use ($stream) {
                 $data = MLLPParser::unwrap($data);
-                $this->emit('data', array($data, $stream));
+                $this->emit('data', [$data, $stream]);
                 $stream->end();
             });
         });
