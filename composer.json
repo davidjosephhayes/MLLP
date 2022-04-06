@@ -1,6 +1,6 @@
 {
   "name": "pharmaintelligence/mllp",
-  "description": "PHP MLLP Server & Client. Based on ReaktPHP.",
+  "description": "PHP MLLP Server & Client. Based on ReactPHP.",
   "require": {
     "php": ">=5.4.0",
     "react/react": "0.4.*"
