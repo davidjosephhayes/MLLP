@@ -25,7 +25,7 @@ abstract class Server extends EventEmitter implements EventEmitterInterface
                 $this->emit('data', [$data, $connection]);
             } catch(\InvalidArgumentException $e) {
                 $this->handleInvalidMLLPEnvelope($data, $connection);
-                $this->emit('error', ['Invalid MLLP envelope. Received: "'.$data.'"', $connection]);
+                $this->emit('error', ['Invalid MLLP envelope.', $connection, $data]);
             }
         });
     }
