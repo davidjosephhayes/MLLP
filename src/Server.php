@@ -33,8 +33,10 @@ abstract class Server extends EventEmitter implements EventEmitterInterface
     public function send($data, ConnectionInterface $connection) {
         $this->emit('send', [$data, $connection]);
         
-        $connection->on('error', function(ConnectionInterface $connection, $error) {
-           $this->emit('error', ['Error sending data: '.$error, $connection]);
+        $connection->on('error', function(ConnectionInterface $connection, $error) use($data) {
+           // ensure error is predictably text
+           $error = iconv("UTF-8", "UTF-8//IGNORE", $error);
+           $this->emit('error', ['Error sending data: '.$error, $connection, $data]);
         });
         
         $data = MLLPParser::enclose($data);
