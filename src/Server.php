@@ -34,8 +34,6 @@ abstract class Server extends EventEmitter implements EventEmitterInterface
         $this->emit('send', [$data, $connection]);
         
         $connection->on('error', function(ConnectionInterface $connection, $error) use($data) {
-           // ensure error is predictably text
-           $error = iconv("UTF-8", "UTF-8//IGNORE", $error);
            $this->emit('error', ['Error sending data: '.$error, $connection, $data]);
         });
         
